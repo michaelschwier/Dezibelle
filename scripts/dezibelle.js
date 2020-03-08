@@ -14,7 +14,7 @@
   // --------------------------------------------------------------------------
   function setupAudioCache()
   {
-    // audioCache["c1"] = new Howl({src: ["audio/c1.mp3"]});
+    audioCache["c1"] = new Howl({src: ["audio/c1.mp3"]});
   }
 
   // --------------------------------------------------------------------------
@@ -140,7 +140,7 @@
     this.render = function()
     {
       if (delayUntilTitle == 0) {
-        document.getElementById("gameContainer").style.backgroundImage="url(\"images/" + language + "/title-02.png?v=0.1.1\")";
+        document.getElementById("gameContainer").style.backgroundImage="url(\"images/" + language + "/title-02.png?v=0.1.2\")";
       }
     }
 
@@ -218,11 +218,31 @@
     this.level = level;
     this.finishedDelay = 2.0;
     scene = {};
+    scene.volumeObject = null;
+
+    minSpawnTime = 3.0;
+    xPosition = 1100;
+    images = [resources.getImage("baby"), resources.getImage("radar")];
+    audios = [audioCache["c1"], audioCache["c1"]];
+    yPositions = [150, 550];
+    scene.objectSpawner = new VolumeObjectSpawner(minSpawnTime, images, audios, xPosition, yPositions, scene);
+
+    scene.piano = new Sprite({
+      image: resources.getImage("piano"),
+      x: -50,
+      y: 650
+    })
+    scene.forte = new Sprite({
+      image: resources.getImage("forte"),
+      x: -50,
+      y: 50
+    })
     scene.scoreBar = new ScoreBar({
       image: resources.getImage("hamster"),
-      x: 220
+      x: 140,
+      width: 840
     });
-    scene.ship = new Dezibelle({
+    scene.player = new Dezibelle({
       image: resources.getImage("dezibelle")
     });
     GamePhase.call(this, scene);
@@ -230,19 +250,20 @@
 
     this.collisionDetection = function()
     {
-      if(this.scene.planet) {
-        xDistToShip = Math.abs(this.scene.ship.x - this.scene.planet.x);
-        yDistToShip = this.scene.ship.y - this.scene.planet.y;
-        if (!this.scene.planet.hasPassed() && (yDistToShip < 50)) {
-          if (this.scene.ship.isWaiting() && (xDistToShip == 0)) {
-            //catch the planet
-            this.scene.planet = null;
-            this.scene.ship.blink();
+      if(this.scene.volumeObject) {
+        xDistToPlayer = this.scene.volumeObject.x - this.scene.player.x;
+        yDistToPlayer = Math.abs(this.scene.player.y - this.scene.volumeObject.y);
+        if (!this.scene.volumeObject.hasPassed() && (xDistToPlayer < 50)) {
+          if (yDistToPlayer < 75) {
+            console.log("catch the volumeObject")
+            //catch the volumeObject
+            this.scene.volumeObject = null;
             this.scene.scoreBar.updateScore(1);
           }
           else {
-            //ship missed the planet
-            this.scene.planet.setPassedState();
+            console.log("missed the volumeObject")
+            //player missed the volumeObject
+            this.scene.volumeObject.setPassedState();
             this.scene.scoreBar.updateScore(-1);
           }
         }
@@ -253,8 +274,8 @@
     {
       if (this.scene.scoreBar.isMax() || this.scene.scoreBar.isEmpty()) {
         this.finishedDelay -= frameTime;
-        if (this.scene.planetSpawner) {
-          delete this.scene.planetSpawner;
+        if (this.scene.objectSpawner) {
+          delete this.scene.objectSpawner;
         }
       }
     }
@@ -262,7 +283,7 @@
     this.super_update = this.update;
     this.update = function(frameTime)
     {
-      // this.collisionDetection();
+      this.collisionDetection();
       this.waitIfFinished(frameTime);
       this.super_update(frameTime);
     }
@@ -376,6 +397,10 @@
   resources.addImage("hamsterDriveUnit", "images/hamster-unit_100x100x2.png");
   resources.addImage("hamsterToken", "images/hamster-unit_800x800x2.png");
   resources.addImage("dezibelle", "images/Dezibelle_200x200x10.png");
+  resources.addImage("baby", "images/Baby_200x200x1.png");
+  resources.addImage("radar", "images/Radar_200x200x1.png");
+  resources.addImage("piano", "images/piano_200x200x1.png");
+  resources.addImage("forte", "images/forte_200x200x1.png");
   // Translated Images
   resources.addImage("countdown", "images/" + language + "/countdown_800x800x3.png");
   resources.addImage("hamsterdriveTitle", "images/" + language + "/hamsterdrive_341x45x1.png");

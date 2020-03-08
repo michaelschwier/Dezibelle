@@ -6,7 +6,7 @@ function Dezibelle(options)
     x: options.x || 100,
     y: options.y || 550,
     numberOfFrames: 10,
-    updateRate: 0.06
+    updateRate: 0.04
   });
   this.playLoop();
   this.mover = new SmoothMover(this, options.moveTime || 0.3);
@@ -59,6 +59,59 @@ function Dezibelle(options)
 }
 
 // --------------------------------------------------------------------------
+function VolumeObjectBase(options)
+{
+  Sprite.call(this, {
+    image: options.image,
+    x: options.x,
+    y: options.y
+  })
+  this.audio = options.audio;
+
+  this.update = function(frameTime)
+  {
+    this.mover.move(frameTime);
+  }
+}
+
+// --------------------------------------------------------------------------
+function VolumeObject(options)
+{
+  VolumeObjectBase.call(this, {
+    image: options.image,
+    x: options.x,
+    y: options.y,
+    audio: options.audio
+  })
+  this.minX = -200;
+  this.passed = false;
+  this.mover = new ConstantMover(this, 6.0 / getUrlParamAsInt("speed", 1.0));
+  this.mover.setNewTargetPos(this.minX, this.y);
+  this.audio.play();
+
+  this.gone = function()
+  {
+    if (this.x <= this.minX) {
+      this.audio.stop();
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  this.setPassedState = function() 
+  {
+    this.passed = true;
+  }
+
+  this.hasPassed = function() 
+  {
+    return this.passed;
+  }
+}
+
+// --------------------------------------------------------------------------
 function NavigationButton(options, command)
 {
   Button.call(this, options, command);
@@ -91,7 +144,8 @@ function NavigationButton(options, command)
 // --------------------------------------------------------------------------
 function ScoreBar(options)
 {
-  xPos = options.x || 20;
+  xPos = options.x;
+  width = options.width;
   this.currScore = options.initScore || 3;
   this.maxScore = 10;
   this.looseScore = 0;
@@ -99,7 +153,7 @@ function ScoreBar(options)
   for (i = 0; i < this.maxScore; i++) {
     this.scorePointSprites[i] = new MultiFrameAnimatedSprite({
       image: options.image,
-      x: xPos + i * 78,
+      x: xPos + i * ((width - 70)/(this.maxScore - 1)),
       y: 20,
       width: 70,
       height: 52,

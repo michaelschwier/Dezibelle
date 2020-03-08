@@ -1,30 +1,30 @@
-function PlanetSpawner(minSpawnTime, images, audios, xPositions, yPosition, scene)
+function VolumeObjectSpawner(minSpawnTime, images, audios, xPosition, yPositions, scene)
 {
   this.minSpawnTime = minSpawnTime;
   this.timeSinceLastSpawn = 0.0;
   this.images = images;
   this.audios = audios;
-  this.xPositions = xPositions;
-  this.yPosition = yPosition;
+  this.xPosition = xPosition;
+  this.yPositions = yPositions;
   this.scene = scene;
   this.shuffledIndexList = []
 
   this.update = function(frameTime)
   {
-    this.timeSinceLastSpawn += frameTime;
-    if (!this.scene.planet || this.scene.planet.gone()) {
+    if (!this.scene.volumeObject || this.scene.volumeObject.gone()) {
+      this.timeSinceLastSpawn += frameTime;
       if (this.timeSinceLastSpawn > this.minSpawnTime) {
         var choice = this.getRandomIndex();
         var img = this.images[choice];
         var audio = this.audios[choice];
-        var yPosition = this.yPosition;
+        var xPosition = this.xPosition;
         if (this.scene.scoreBar) {
-          yPosition -= this.scene.scoreBar.getScore() * 10;
+          xPosition -= this.scene.scoreBar.getScore() * 10;
         }
-        this.scene.planet = new Planet({
+        this.scene.volumeObject = new VolumeObject({
           image: img, 
-          x: xPositions[choice],
-          y: yPosition,
+          x: xPosition,
+          y: yPositions[choice],
           audio: audio
         });
         this.timeSinceLastSpawn = 0;
