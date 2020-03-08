@@ -311,7 +311,7 @@ function AbstractLinearMover(sprite, timeForMove)
     this.startPosY = this.sprite.y;  
     this.moveVectorX = x - this.sprite.x;
     this.moveVectorY = y - this.sprite.y;
-    if ((this.moveVectorX != 0) || (this.moveVectorY != 0)) {
+    if (!this.isMoving() && ((this.moveVectorX != 0) || (this.moveVectorY != 0))) {
       this.currMoveTime = 0.0;
     }
   }

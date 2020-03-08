@@ -9,6 +9,7 @@
   var gamePhase;
   var levelCreator;
   var gameStatusCreator;
+  var mouseIsPressed = false;
 
   // --------------------------------------------------------------------------
   function setupAudioCache()
@@ -82,11 +83,31 @@
     }
   }
 
+  function handleMouseMove(e)
+  {
+    e.preventDefault();
+    if (mouseIsPressed) {
+      pos = getCanvasPosition(e);
+      gamePhase.handleTouchMove(pos);
+    }
+  }
+
   function handleMouseDown(e)
   {
     e.preventDefault();
+    if (e.button == 0) {
+      mouseIsPressed = true;
+    }
     pos = getCanvasPosition(e);
     gamePhase.handleMouseDown(pos);
+  }
+
+  function handleMouseUp(e)
+  {
+    e.preventDefault();
+    if (e.button == 0) {
+      mouseIsPressed = false;
+    }
   }
   
   // --------------------------------------------------------------------------
@@ -331,6 +352,8 @@
     canvas.addEventListener("touchmove", handleTouchMove);
     canvas.addEventListener("touchstart", handleTouchStart);
     canvas.addEventListener("mousedown", handleMouseDown);
+    canvas.addEventListener("mouseup", handleMouseUp);
+    canvas.addEventListener("mousemove", handleMouseMove);
 
     // levelCreator = new LevelCreator(levelDefinitions, resources, audioCache)
     // gameStatusCreator = new GameStatusCreator(levelDefinitions, resources, audioCache)
