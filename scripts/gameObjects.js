@@ -5,8 +5,8 @@ function Dezibelle(options)
     image: options.image,
     x: options.x || 100,
     y: options.y || 550,
-    numberOfFrames: 4,
-    updateRate: 0.15
+    numberOfFrames: 10,
+    updateRate: 0.06
   });
   this.playLoop();
   this.mover = new SmoothMover(this, options.moveTime || 0.3);

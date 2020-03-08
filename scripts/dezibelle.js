@@ -140,7 +140,7 @@
     this.render = function()
     {
       if (delayUntilTitle == 0) {
-        document.getElementById("gameContainer").style.backgroundImage="url(\"images/" + language + "/title-02.png?v=0.1.0\")";
+        document.getElementById("gameContainer").style.backgroundImage="url(\"images/" + language + "/title-02.png?v=0.1.1\")";
       }
     }
 
@@ -375,7 +375,7 @@
   resources.addImage("hamster", "images/hamster_100x74x2.png")  
   resources.addImage("hamsterDriveUnit", "images/hamster-unit_100x100x2.png");
   resources.addImage("hamsterToken", "images/hamster-unit_800x800x2.png");
-  resources.addImage("dezibelle", "images/Dezibelle_193x200x4.png");
+  resources.addImage("dezibelle", "images/Dezibelle_200x200x10.png");
   // Translated Images
   resources.addImage("countdown", "images/" + language + "/countdown_800x800x3.png");
   resources.addImage("hamsterdriveTitle", "images/" + language + "/hamsterdrive_341x45x1.png");
