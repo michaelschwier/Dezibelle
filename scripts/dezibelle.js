@@ -90,7 +90,7 @@
   }
   
   // --------------------------------------------------------------------------
-  function IntroPhase(titleDelay = 120/*120*/) {
+  function IntroPhase(titleDelay = 15/*120*/) {
     var delayUntilTitle = titleDelay;
     var startGame = false;
     document.getElementById("gameContainer").style.backgroundColor="white";
@@ -127,7 +127,7 @@
     {
       if (startGame) 
       {
-        return new ExplainPhase();
+        return new MainGamePhase(0);
       }
       else {
         return this;
@@ -189,7 +189,79 @@
       return this;
     }
   }
-  
+
+  // --------------------------------------------------------------------------
+  function MainGamePhase(level)
+  {
+    document.getElementById("gameContainer").style.backgroundColor="gray";
+    this.level = level;
+    this.finishedDelay = 2.0;
+    scene = {};
+    scene.scoreBar = new ScoreBar({
+      image: resources.getImage("hamster"),
+      x: 220
+    });
+    scene.ship = new Dezibelle({
+      image: resources.getImage("dezibelle")
+    });
+    GamePhase.call(this, scene);
+
+
+    this.collisionDetection = function()
+    {
+      if(this.scene.planet) {
+        xDistToShip = Math.abs(this.scene.ship.x - this.scene.planet.x);
+        yDistToShip = this.scene.ship.y - this.scene.planet.y;
+        if (!this.scene.planet.hasPassed() && (yDistToShip < 50)) {
+          if (this.scene.ship.isWaiting() && (xDistToShip == 0)) {
+            //catch the planet
+            this.scene.planet = null;
+            this.scene.ship.blink();
+            this.scene.scoreBar.updateScore(1);
+          }
+          else {
+            //ship missed the planet
+            this.scene.planet.setPassedState();
+            this.scene.scoreBar.updateScore(-1);
+          }
+        }
+      }
+    }
+
+    this.waitIfFinished = function(frameTime) 
+    {
+      if (this.scene.scoreBar.isMax() || this.scene.scoreBar.isEmpty()) {
+        this.finishedDelay -= frameTime;
+        if (this.scene.planetSpawner) {
+          delete this.scene.planetSpawner;
+        }
+      }
+    }
+
+    this.super_update = this.update;
+    this.update = function(frameTime)
+    {
+      // this.collisionDetection();
+      this.waitIfFinished(frameTime);
+      this.super_update(frameTime);
+    }
+
+    this.getNextGamePhase = function()
+    { 
+      if (this.scene.scoreBar.isMax() && (this.finishedDelay < 0)) {
+        // return new LevelFinishedPhase(this.level);
+        return new IntroPhase();
+      }
+      else if (this.scene.scoreBar.isEmpty() && (this.finishedDelay < 0)) {
+        // return new GameStatusPhase(this.level, this.level);
+        return new MainGamePhase(0);
+      }
+      else {
+        return this;
+      }
+    }
+
+  }
   
   // --------------------------------------------------------------------------
   function LevelFinishedPhase(currLevel)
@@ -280,6 +352,7 @@
   resources.addImage("hamster", "images/hamster_100x74x2.png")  
   resources.addImage("hamsterDriveUnit", "images/hamster-unit_100x100x2.png");
   resources.addImage("hamsterToken", "images/hamster-unit_800x800x2.png");
+  resources.addImage("dezibelle", "images/Dezibelle_193x200x4.png");
   // Translated Images
   resources.addImage("countdown", "images/" + language + "/countdown_800x800x3.png");
   resources.addImage("hamsterdriveTitle", "images/" + language + "/hamsterdrive_341x45x1.png");

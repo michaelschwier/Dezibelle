@@ -1,47 +1,60 @@
 // --------------------------------------------------------------------------
-function Ship(options)
+function Dezibelle(options)
 {
   MultiFrameAnimatedSprite.call(this, {
     image: options.image,
-    x: options.x,
-    y: options.y || 650,
-    numberOfFrames: 2,
-    updateRate: 0.07
+    x: options.x || 100,
+    y: options.y || 550,
+    numberOfFrames: 4,
+    updateRate: 0.15
   });
-  this.mover = new SmoothMover(this, options.moveTime || 0.3)
-  this.blinkTime = 0.7;
-  this.currBlinkTime = this.blinkTime;
+  this.playLoop();
+  this.mover = new SmoothMover(this, options.moveTime || 0.3);
   
   this.ssuper_update = this.update;
   this.update = function(frameTime = 0) 
   {
     this.mover.move(frameTime);
-    if (this.currBlinkTime < this.blinkTime) {
-      this.currBlinkTime += frameTime;
-      if (this.currBlinkTime > this.blinkTime) {
-        this.pause();
-        this.rewind();
-      }
-    }
     this.ssuper_update(frameTime);
   }
 
-  this.moveTo = function(x, y)
+  this.moveTo = function(y)
   {
+    x = this.x;
+    y = Math.min(Math.max(y, 250), 650) - 100;
     if (!this.mover.currentTargetPosEquals(x,y)) {
       this.mover.setNewTargetPos(x, y);
     }
   }
 
+  this.isInNavigationArea = function(x, y)
+  {
+    if (x >= 0 
+        && y >= 0 
+        && x <= 300 
+        && y <= 800 ) {
+      return true;
+    }
+    else {
+      return false;
+    }  
+  }
+
+  this.handleTouchMove = function(pos)
+  { 
+    if (this.isInNavigationArea(pos.canvasX, pos.canvasY)) {
+      this.moveTo(pos.canvasY);
+    }
+  }
+
+  this.handleMouseDown = function(pos)
+  {
+    this.handleTouchMove(pos);
+  }
+
   this.isWaiting = function()
   {
     return !this.mover.isMoving();
-  }
-
-  this.blink = function()
-  {
-    this.playLoop();
-    this.currBlinkTime = 0.0;
   }
 }
 
@@ -78,6 +91,7 @@ function NavigationButton(options, command)
 // --------------------------------------------------------------------------
 function ScoreBar(options)
 {
+  xPos = options.x || 20;
   this.currScore = options.initScore || 3;
   this.maxScore = 10;
   this.looseScore = 0;
@@ -85,7 +99,7 @@ function ScoreBar(options)
   for (i = 0; i < this.maxScore; i++) {
     this.scorePointSprites[i] = new MultiFrameAnimatedSprite({
       image: options.image,
-      x: 20 + i * 78,
+      x: xPos + i * 78,
       y: 20,
       width: 70,
       height: 52,
