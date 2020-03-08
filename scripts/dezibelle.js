@@ -214,11 +214,10 @@
   // --------------------------------------------------------------------------
   function MainGamePhase(level)
   {
-    document.getElementById("gameContainer").style.backgroundColor="gray";
+    document.getElementById("gameContainer").style.backgroundColor="black";
     this.level = level;
     this.finishedDelay = 2.0;
     scene = {};
-    scene.volumeObject = null;
 
     minSpawnTime = 3.0;
     xPosition = 1100;
@@ -237,6 +236,14 @@
       x: -50,
       y: 50
     })
+    scene.balken = new Sprite({
+      image: resources.getImage("balken"),
+      x: 0,
+      y: 130
+    })    
+
+    scene.volumeObject = null;
+
     scene.scoreBar = new ScoreBar({
       image: resources.getImage("hamster"),
       x: 140,
@@ -255,14 +262,12 @@
         yDistToPlayer = Math.abs(this.scene.player.y - this.scene.volumeObject.y);
         if (!this.scene.volumeObject.hasPassed() && (xDistToPlayer < 50)) {
           if (yDistToPlayer < 75) {
-            console.log("catch the volumeObject")
-            //catch the volumeObject
+            // console.log("player caught the volumeObject")
             this.scene.volumeObject = null;
             this.scene.scoreBar.updateScore(1);
           }
           else {
-            console.log("missed the volumeObject")
-            //player missed the volumeObject
+            // console.log("player missed the volumeObject")
             this.scene.volumeObject.setPassedState();
             this.scene.scoreBar.updateScore(-1);
           }
@@ -401,6 +406,7 @@
   resources.addImage("radar", "images/Radar_200x200x1.png");
   resources.addImage("piano", "images/piano_200x200x1.png");
   resources.addImage("forte", "images/forte_200x200x1.png");
+  resources.addImage("balken", "images/balken_100x600x1.png")
   // Translated Images
   resources.addImage("countdown", "images/" + language + "/countdown_800x800x3.png");
   resources.addImage("hamsterdriveTitle", "images/" + language + "/hamsterdrive_341x45x1.png");
