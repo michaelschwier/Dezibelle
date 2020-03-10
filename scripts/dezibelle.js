@@ -15,6 +15,7 @@
   function setupAudioCache()
   {
     audioCache["c1"] = new Howl({src: ["audio/c1.mp3"]});
+    audioCache["c2"] = new Howl({src: ["audio/c2.mp3"]});
   }
 
   // --------------------------------------------------------------------------
@@ -140,7 +141,7 @@
     this.render = function()
     {
       if (delayUntilTitle == 0) {
-        document.getElementById("gameContainer").style.backgroundImage="url(\"images/" + language + "/title-02.png?v=0.1.2\")";
+        document.getElementById("gameContainer").style.backgroundImage="url(\"images/" + language + "/title-02.png?v=0.1.3\")";
       }
     }
 
@@ -219,28 +220,35 @@
     this.finishedDelay = 2.0;
     scene = {};
 
+    scene.piano = new MultiFrameAnimatedSprite({
+      image: resources.getImage("piano"),
+      x: -50,
+      y: 650,
+      numberOfFrames: 8,
+      updateRate: 0.05
+    })
+    scene.forte = new MultiFrameAnimatedSprite({
+      image: resources.getImage("forte"),
+      x: -50,
+      y: 50,
+      numberOfFrames: 8,
+      updateRate: 0.05
+    })
+    scene.balken = new Sprite({
+      image: resources.getImage("balken"),
+      x: 0,
+      y: 190
+    })    
+
     minSpawnTime = 3.0;
     xPosition = 1100;
     images = [resources.getImage("baby"), resources.getImage("radar")];
     audios = [audioCache["c1"], audioCache["c1"]];
     yPositions = [150, 550];
-    scene.objectSpawner = new VolumeObjectSpawner(minSpawnTime, images, audios, xPosition, yPositions, scene);
-
-    scene.piano = new Sprite({
-      image: resources.getImage("piano"),
-      x: -50,
-      y: 650
-    })
-    scene.forte = new Sprite({
-      image: resources.getImage("forte"),
-      x: -50,
-      y: 50
-    })
-    scene.balken = new Sprite({
-      image: resources.getImage("balken"),
-      x: 0,
-      y: 130
-    })    
+    scene.objectSpawner = new VolumeObjectSpawner(minSpawnTime, 
+      images, audios, xPosition, yPositions, 
+      resources.getImage("bombe"), audioCache["c2"], 0.4,
+      scene);
 
     scene.volumeObject = null;
 
@@ -262,14 +270,22 @@
         yDistToPlayer = Math.abs(this.scene.player.y - this.scene.volumeObject.y);
         if (!this.scene.volumeObject.hasPassed() && (xDistToPlayer < 50)) {
           if (yDistToPlayer < 75) {
-            // console.log("player caught the volumeObject")
+            if (this.scene.volumeObject instanceof Bomb) {
+              this.scene.volumeObject.collision();
+              if (this.scene.scoreBar.getScore() > 3) {
+                this.scene.scoreBar.setScore(3);
+              }
+            }
+            else {
+            this.scene.scoreBar.updateScore(1);  
+            }
             this.scene.volumeObject = null;
-            this.scene.scoreBar.updateScore(1);
           }
           else {
-            // console.log("player missed the volumeObject")
             this.scene.volumeObject.setPassedState();
-            this.scene.scoreBar.updateScore(-1);
+            if (!(this.scene.volumeObject instanceof Bomb)) {
+              this.scene.scoreBar.updateScore(-1);
+            }
           }
         }
       }
@@ -301,7 +317,7 @@
       }
       else if (this.scene.scoreBar.isEmpty() && (this.finishedDelay < 0)) {
         // return new GameStatusPhase(this.level, this.level);
-        return new MainGamePhase(0);
+        return new IntroPhase();
       }
       else {
         return this;
@@ -404,9 +420,10 @@
   resources.addImage("dezibelle", "images/Dezibelle_200x200x10.png");
   resources.addImage("baby", "images/Baby_200x200x1.png");
   resources.addImage("radar", "images/Radar_200x200x1.png");
-  resources.addImage("piano", "images/piano_200x200x1.png");
-  resources.addImage("forte", "images/forte_200x200x1.png");
-  resources.addImage("balken", "images/balken_100x600x1.png")
+  resources.addImage("bombe", "images/Stinkbombe_200x200x1.png");
+  resources.addImage("piano", "images/piano_200x200x8.png");
+  resources.addImage("forte", "images/forte_200x200x8.png");
+  resources.addImage("balken", "images/balken_100x500x1.png")
   // Translated Images
   resources.addImage("countdown", "images/" + language + "/countdown_800x800x3.png");
   resources.addImage("hamsterdriveTitle", "images/" + language + "/hamsterdrive_341x45x1.png");

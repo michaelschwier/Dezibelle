@@ -1,4 +1,7 @@
-function VolumeObjectSpawner(minSpawnTime, images, audios, xPosition, yPositions, scene)
+function VolumeObjectSpawner(minSpawnTime, 
+  images, audios, xPosition, yPositions, 
+  bombImg, bombAudio, bombProbability, 
+  scene)
 {
   this.minSpawnTime = minSpawnTime;
   this.timeSinceLastSpawn = 0.0;
@@ -6,6 +9,9 @@ function VolumeObjectSpawner(minSpawnTime, images, audios, xPosition, yPositions
   this.audios = audios;
   this.xPosition = xPosition;
   this.yPositions = yPositions;
+  this.bombImg = bombImg;
+  this.bombAudio = bombAudio;
+  this.bombProbability = bombProbability;
   this.scene = scene;
   this.shuffledIndexList = []
 
@@ -14,22 +20,50 @@ function VolumeObjectSpawner(minSpawnTime, images, audios, xPosition, yPositions
     if (!this.scene.volumeObject || this.scene.volumeObject.gone()) {
       this.timeSinceLastSpawn += frameTime;
       if (this.timeSinceLastSpawn > this.minSpawnTime) {
-        var choice = this.getRandomIndex();
-        var img = this.images[choice];
-        var audio = this.audios[choice];
-        var xPosition = this.xPosition;
-        if (this.scene.scoreBar) {
-          xPosition -= this.scene.scoreBar.getScore() * 10;
+        if (Math.random() < this.bombProbability) {
+          this.spawnBomb();
         }
-        this.scene.volumeObject = new VolumeObject({
-          image: img, 
-          x: xPosition,
-          y: yPositions[choice],
-          audio: audio
-        });
+        else {
+          this.spawnNewVolumeObject();
+        }
         this.timeSinceLastSpawn = 0;
       }
     }  
+  }
+
+  this.spawnBomb = function()
+  {
+    yPos = 150;
+    if (Math.random() < 0.5) {
+      yPos = 550;
+    }
+    this.scene.volumeObject = new Bomb({
+      image: this.bombImg, 
+      x: this.xPosition,
+      y: yPos,
+      audio: this.bombAudio
+    });
+  }
+
+  this.spawnNewVolumeObject = function()
+  {
+    var choice = this.getRandomIndex();
+    var img = this.images[choice];
+    var audio = this.audios[choice];
+    var xPosition = this.xPosition;
+    var yPosition = this.yPositions[choice];
+    this.scene.volumeObject = new VolumeObject({
+      image: img, 
+      x: xPosition,
+      y: yPosition,
+      audio: audio
+    });
+    if (yPosition == 150 && this.scene.forte) {
+      this.scene.forte.playLoop(4, true)
+    }
+    else if (yPosition == 550 && this.scene.piano) {
+      this.scene.piano.playLoop(4, true)
+    }
   }
 
   this.getRandomIndex = function()

@@ -67,27 +67,15 @@ function VolumeObjectBase(options)
     y: options.y
   })
   this.audio = options.audio;
+  this.minX = -200;
+  this.passed = false;
+  this.mover = new ConstantMover(this, 6.0 / getUrlParamAsInt("speed", 1.0));
+  this.mover.setNewTargetPos(this.minX, this.y);
 
   this.update = function(frameTime)
   {
     this.mover.move(frameTime);
   }
-}
-
-// --------------------------------------------------------------------------
-function VolumeObject(options)
-{
-  VolumeObjectBase.call(this, {
-    image: options.image,
-    x: options.x,
-    y: options.y,
-    audio: options.audio
-  })
-  this.minX = -200;
-  this.passed = false;
-  this.mover = new ConstantMover(this, 6.0 / getUrlParamAsInt("speed", 1.0));
-  this.mover.setNewTargetPos(this.minX, this.y);
-  this.audio.play();
 
   this.gone = function()
   {
@@ -110,6 +98,25 @@ function VolumeObject(options)
     return this.passed;
   }
 }
+
+// --------------------------------------------------------------------------
+function VolumeObject(options)
+{
+  VolumeObjectBase.call(this, options);
+  this.audio.play();
+}
+
+// --------------------------------------------------------------------------
+function Bomb(options)
+{
+  VolumeObjectBase.call(this, options);
+
+  this.collision = function()
+  {
+    this.audio.play();
+  }
+}
+
 
 // --------------------------------------------------------------------------
 function NavigationButton(options, command)
@@ -163,7 +170,12 @@ function ScoreBar(options)
 
   this.updateScore = function(increment) 
   {
-    this.currScore += increment;
+    this.setScore(this.currScore += increment);
+  }
+
+  this.setScore = function(newScore)
+  {
+    this.currScore = newScore;
     this.currScore = this.currScore < this.looseScore ? this.looseScore : this.currScore;
     this.currScore = this.currScore > this.maxScore ? this.maxScore : this.currScore;
   }
