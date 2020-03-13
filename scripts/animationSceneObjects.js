@@ -174,8 +174,8 @@ function HamsterToken(resources)
   this.timePassed = 0;
   this.hamster = new MultiFrameAnimatedSprite({
     image: resources.getImage("hamsterToken"),
-    x: 0,
-    y: 100,
+    x: 100,
+    y: 0,
     numberOfFrames: 2,
     updateRate: 0.25
   });
@@ -213,15 +213,15 @@ function HamsterDriveStatus(finishedLevel, resources)
   this.timePassed = 0;
   this.title = new Sprite({
     image: resources.getImage("hamsterdriveTitle"),
-    x: 230,
-    y: 50,
+    x: 330,
+    y: 10,
   });
   this.units = [];
   for (i = 0; i < 10; i++) {
     this.units[i] = new MultiFrameAnimatedSprite({
       image: resources.getImage("hamsterDriveUnit"),
-      x: 350,
-      y: 850 - i * 83,
+      x: 450,
+      y: 700 - i * 72,
       numberOfFrames: 2,
       updateRate: 0.25
     });

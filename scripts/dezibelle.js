@@ -141,7 +141,7 @@
     this.render = function()
     {
       if (delayUntilTitle == 0) {
-        document.getElementById("gameContainer").style.backgroundImage="url(\"images/" + language + "/title-02.png?v=0.1.3\")";
+        document.getElementById("gameContainer").style.backgroundImage="url(\"images/" + language + "/title-02.png?v=0.1.4\")";
       }
     }
 
@@ -218,50 +218,7 @@
     document.getElementById("gameContainer").style.backgroundColor="black";
     this.level = level;
     this.finishedDelay = 2.0;
-    scene = {};
-
-    scene.piano = new MultiFrameAnimatedSprite({
-      image: resources.getImage("piano"),
-      x: -50,
-      y: 650,
-      numberOfFrames: 8,
-      updateRate: 0.05
-    })
-    scene.forte = new MultiFrameAnimatedSprite({
-      image: resources.getImage("forte"),
-      x: -50,
-      y: 50,
-      numberOfFrames: 8,
-      updateRate: 0.05
-    })
-    scene.balken = new Sprite({
-      image: resources.getImage("balken"),
-      x: 0,
-      y: 190
-    })    
-
-    minSpawnTime = 3.0;
-    xPosition = 1100;
-    images = [resources.getImage("baby"), resources.getImage("radar")];
-    audios = [audioCache["c1"], audioCache["c1"]];
-    yPositions = [150, 550];
-    scene.objectSpawner = new VolumeObjectSpawner(minSpawnTime, 
-      images, audios, xPosition, yPositions, 
-      resources.getImage("bombe"), audioCache["c2"], 0.4,
-      scene);
-
-    scene.volumeObject = null;
-
-    scene.scoreBar = new ScoreBar({
-      image: resources.getImage("hamster"),
-      x: 140,
-      width: 840
-    });
-    scene.player = new Dezibelle({
-      image: resources.getImage("dezibelle")
-    });
-    GamePhase.call(this, scene);
-
+    GamePhase.call(this, levelCreator.getScene(this.level));
 
     this.collisionDetection = function()
     {
@@ -312,12 +269,11 @@
     this.getNextGamePhase = function()
     { 
       if (this.scene.scoreBar.isMax() && (this.finishedDelay < 0)) {
-        // return new LevelFinishedPhase(this.level);
-        return new IntroPhase();
+        return new LevelFinishedPhase(this.level);
       }
       else if (this.scene.scoreBar.isEmpty() && (this.finishedDelay < 0)) {
         // return new GameStatusPhase(this.level, this.level);
-        return new IntroPhase();
+        return new MainGamePhase(this.level);
       }
       else {
         return this;
@@ -334,7 +290,7 @@
     var scene = {}
     hamsterToken = new HamsterToken(resources);
     hamsterDriveStatus = new HamsterDriveStatus(currLevel, resources);
-    scene.animationSequence = new AnimationSequence([hamsterToken, hamsterDriveStatus], true)
+    scene.animationSequence = new AnimationSequence([hamsterToken, hamsterDriveStatus], false)
     if (this.currLevel == 4) {
       scene.animationSequence.append(new PortrashTalks(
         ["motivate01"],
@@ -350,7 +306,13 @@
     this.getNextGamePhase = function()
     { 
       if (scene.animationSequence.isDone()) {
-        return new GameStatusPhase(this.currLevel, this.currLevel + 1);
+        nextLevel = this.currLevel + 1;
+        if (nextLevel < levelDefinitions.length) {
+          return new MainGamePhase(nextLevel);
+        }
+        else {
+          return new IntroPhase();
+        }
       }
       else {
         return this;
@@ -397,7 +359,7 @@
     canvas.addEventListener("mouseup", handleMouseUp);
     canvas.addEventListener("mousemove", handleMouseMove);
 
-    // levelCreator = new LevelCreator(levelDefinitions, resources, audioCache)
+    levelCreator = new LevelCreator(levelDefinitions, resources, audioCache)
     // gameStatusCreator = new GameStatusCreator(levelDefinitions, resources, audioCache)
   
     gameLoop();
@@ -420,6 +382,7 @@
   resources.addImage("dezibelle", "images/Dezibelle_200x200x10.png");
   resources.addImage("baby", "images/Baby_200x200x1.png");
   resources.addImage("radar", "images/Radar_200x200x1.png");
+  resources.addImage("saugroboter", "images/Saugroboter_200x200x1.png")
   resources.addImage("bombe", "images/Stinkbombe_200x200x1.png");
   resources.addImage("piano", "images/piano_200x200x8.png");
   resources.addImage("forte", "images/forte_200x200x8.png");

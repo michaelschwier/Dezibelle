@@ -1,6 +1,6 @@
 function VolumeObjectSpawner(minSpawnTime, 
   images, audios, xPosition, yPositions, 
-  bombImg, bombAudio, bombProbability, 
+  bombImg, bombAudio, bombStartProbability, 
   scene)
 {
   this.minSpawnTime = minSpawnTime;
@@ -11,7 +11,8 @@ function VolumeObjectSpawner(minSpawnTime,
   this.yPositions = yPositions;
   this.bombImg = bombImg;
   this.bombAudio = bombAudio;
-  this.bombProbability = bombProbability;
+  this.bombStartProbability = bombStartProbability;
+  this.bombProbability = this.bombStartProbability;
   this.scene = scene;
   this.shuffledIndexList = []
 
@@ -20,11 +21,14 @@ function VolumeObjectSpawner(minSpawnTime,
     if (!this.scene.volumeObject || this.scene.volumeObject.gone()) {
       this.timeSinceLastSpawn += frameTime;
       if (this.timeSinceLastSpawn > this.minSpawnTime) {
+        // console.log(this.bombProbability)
         if (Math.random() < this.bombProbability) {
           this.spawnBomb();
+          this.bombProbability = this.bombStartProbability;
         }
         else {
           this.spawnNewVolumeObject();
+          this.bombProbability = 2 * this.bombProbability;
         }
         this.timeSinceLastSpawn = 0;
       }
