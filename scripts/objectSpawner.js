@@ -1,6 +1,7 @@
 function VolumeObjectSpawner(minSpawnTime, 
   images, audios, xPosition, yPositions, 
   bombImg, bombAudio, bombStartProbability, 
+  collisionAudio,
   scene)
 {
   this.minSpawnTime = minSpawnTime;
@@ -13,6 +14,7 @@ function VolumeObjectSpawner(minSpawnTime,
   this.bombAudio = bombAudio;
   this.bombStartProbability = bombStartProbability;
   this.bombProbability = this.bombStartProbability;
+  this.collisionAudio = collisionAudio;
   this.scene = scene;
   this.shuffledIndexList = []
 
@@ -45,7 +47,8 @@ function VolumeObjectSpawner(minSpawnTime,
       image: this.bombImg, 
       x: this.xPosition,
       y: yPos,
-      audio: this.bombAudio
+      audio: this.bombAudio,
+      collisionAudio: this.collisionAudio
     });
   }
 

@@ -54,7 +54,8 @@ function LevelCreator(levelDefinitions, resources, audioCache)
     }
     scene.objectSpawner = new VolumeObjectSpawner(minSpawnTime, 
       images, audios, xPosition, yPositions, 
-      this.resources.getImage("bombe"), audioCache["c2"], levelDef.bombStartProbability,
+      this.resources.getImage("bombe"), audioCache["bomb"], levelDef.bombStartProbability,
+      audioCache["kotz"],
       scene);
     scene.volumeObject = null;
   }

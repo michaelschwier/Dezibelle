@@ -14,8 +14,23 @@
   // --------------------------------------------------------------------------
   function setupAudioCache()
   {
-    audioCache["c1"] = new Howl({src: ["audio/c1.mp3"]});
-    audioCache["c2"] = new Howl({src: ["audio/c2.mp3"]});
+    audioCache["baby"] = new Howl({src: ["audio/Baby.mp3"]});
+    audioCache["saugroboter"] = new Howl({src: ["audio/Staubsaugerroboter.mp3"]});
+    audioCache["verstaerker"] = new Howl({src: ["audio/Verstaerkerturm.mp3"]});
+    audioCache["dino"] = new Howl({src: ["audio/SpaceDino.mp3"]});
+    audioCache["gitarre"] = new Howl({src: ["audio/Gitarrenriff.mp3"]});
+    audioCache["schlagzeug"] = new Howl({src: ["audio/Schlagzeug.mp3"]});
+    audioCache["garnele"] = new Howl({src: ["audio/Groelgarnelen.mp3"]});
+
+    audioCache["radar"] = new Howl({src: ["audio/Radar.mp3"]});
+    audioCache["radar"].volume(0.1);
+    audioCache["lamm"] = new Howl({src: ["audio/Babylaemmchen.mp3"]});
+    audioCache["lamm"].volume(0.1);
+    audioCache["wurstbrot"] = new Howl({src: ["audio/silence.mp3"]});
+    audioCache["wurstbrot"].volume(0.1);
+
+    audioCache["bomb"] = new Howl({src: ["audio/Moewenpupsstinkbombe.mp3"]});
+    audioCache["kotz"] = new Howl({src: ["audio/WuergKotz.mp3"]});
   }
 
   // --------------------------------------------------------------------------
@@ -141,7 +156,7 @@
     this.render = function()
     {
       if (delayUntilTitle == 0) {
-        document.getElementById("gameContainer").style.backgroundImage="url(\"images/" + language + "/title-02.png?v=0.1.4\")";
+        document.getElementById("gameContainer").style.backgroundImage="url(\"images/" + language + "/title-02.png?v=0.1.5\")";
       }
     }
 
@@ -236,6 +251,7 @@
             else {
             this.scene.scoreBar.updateScore(1);  
             }
+            this.scene.volumeObject.catch();
             this.scene.volumeObject = null;
           }
           else {
@@ -291,16 +307,16 @@
     hamsterToken = new HamsterToken(resources);
     hamsterDriveStatus = new HamsterDriveStatus(currLevel, resources);
     scene.animationSequence = new AnimationSequence([hamsterToken, hamsterDriveStatus], false)
-    if (this.currLevel == 4) {
-      scene.animationSequence.append(new PortrashTalks(
-        ["motivate01"],
-        resources));
-    }
-    else if (this.currLevel == 8) {
-      scene.animationSequence.append(new PortrashTalks(
-        ["motivate02"],
-        resources));
-    }
+    // if (this.currLevel == 4) {
+    //   scene.animationSequence.append(new PortrashTalks(
+    //     ["motivate01"],
+    //     resources));
+    // }
+    // else if (this.currLevel == 8) {
+    //   scene.animationSequence.append(new PortrashTalks(
+    //     ["motivate02"],
+    //     resources));
+    // }
     GamePhase.call(this, scene);
 
     this.getNextGamePhase = function()
@@ -384,6 +400,13 @@
   resources.addImage("radar", "images/Radar_200x200x1.png");
   resources.addImage("saugroboter", "images/Saugroboter_200x200x1.png")
   resources.addImage("bombe", "images/Stinkbombe_200x200x1.png");
+  resources.addImage("lamm", "images/Babylaemmchen_200x200x1.png");
+  resources.addImage("gitarre", "images/Luftgitarre_200x200x1.png");
+  resources.addImage("dino", "images/Spacedino_200x200x1.png")
+  resources.addImage("verstaerker", "images/Verstaerkerturm_200x200x1.png");
+  resources.addImage("wurstbrot", "images/Wurstbrot_200x200x1.png");
+  resources.addImage("garnele", "images/Groelgarnele_200x200x1.png");
+  resources.addImage("schlagzeug", "images/Schlagzeug_200x200x1.png")  
   resources.addImage("piano", "images/piano_200x200x8.png");
   resources.addImage("forte", "images/forte_200x200x8.png");
   resources.addImage("balken", "images/balken_100x500x1.png")

@@ -88,6 +88,11 @@ function VolumeObjectBase(options)
     }
   }
 
+  this.catch = function()
+  {
+    this.audio.stop();
+  }
+
   this.setPassedState = function() 
   {
     this.passed = true;
@@ -109,11 +114,13 @@ function VolumeObject(options)
 // --------------------------------------------------------------------------
 function Bomb(options)
 {
-  VolumeObjectBase.call(this, options);
+  this.collisionAudio = options.collisionAudio;
+  VolumeObject.call(this, options);
 
   this.collision = function()
   {
-    this.audio.play();
+    this.audio.stop();
+    this.collisionAudio.play();
   }
 }
 
