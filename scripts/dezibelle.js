@@ -29,8 +29,8 @@
     audioCache["wurstbrot"] = new Howl({src: ["audio/silence.mp3"]});
     audioCache["wurstbrot"].volume(0.1);
 
-    audioCache["bomb"] = new Howl({src: ["audio/Moewenpupsstinkbombe.mp3"]});
-    audioCache["kotz"] = new Howl({src: ["audio/WuergKotz.mp3"]});
+    audioCache["bomb"] = new Howl({src: ["audio/Moewenpupsstinkbombe2.mp3"]});
+    audioCache["kotz"] = new Howl({src: ["audio/PupsWuergKotz.mp3"]});
   }
 
   // --------------------------------------------------------------------------
@@ -156,7 +156,7 @@
     this.render = function()
     {
       if (delayUntilTitle == 0) {
-        document.getElementById("gameContainer").style.backgroundImage="url(\"images/" + language + "/title-02.png?v=0.1.5\")";
+        document.getElementById("gameContainer").style.backgroundImage="url(\"images/" + language + "/title-02.png?v=0.1.6\")";
       }
     }
 

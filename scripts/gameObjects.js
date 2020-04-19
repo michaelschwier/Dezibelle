@@ -71,6 +71,7 @@ function VolumeObjectBase(options)
   this.passed = false;
   this.mover = new ConstantMover(this, 6.0 / getUrlParamAsInt("speed", 1.0));
   this.mover.setNewTargetPos(this.minX, this.y);
+  this.audioId = this.audio.play();
 
   this.update = function(frameTime)
   {
@@ -80,7 +81,7 @@ function VolumeObjectBase(options)
   this.gone = function()
   {
     if (this.x <= this.minX) {
-      this.audio.stop();
+      this.audio.fade(this.audio.volume(), 0.0, 200, this.audioId);
       return true;
     }
     else {
@@ -90,7 +91,7 @@ function VolumeObjectBase(options)
 
   this.catch = function()
   {
-    this.audio.stop();
+    this.audio.fade(this.audio.volume(), 0.0, 200, this.audioId);
   }
 
   this.setPassedState = function() 
@@ -108,7 +109,6 @@ function VolumeObjectBase(options)
 function VolumeObject(options)
 {
   VolumeObjectBase.call(this, options);
-  this.audio.play();
 }
 
 // --------------------------------------------------------------------------
@@ -119,7 +119,7 @@ function Bomb(options)
 
   this.collision = function()
   {
-    this.audio.stop();
+    this.audio.fade(this.audio.volume(), 0.0, 200, this.audioId);
     this.collisionAudio.play();
   }
 }

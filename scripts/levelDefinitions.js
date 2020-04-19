@@ -27,9 +27,9 @@ levelDefinitions = [
         audioKey: "baby"
       },
       {
-        imageKey: "saugroboter",
+        imageKey: "gitarre",
         yPos: 150,
-        audioKey: "saugroboter"
+        audioKey: "gitarre"
       },
       {
         imageKey: "radar",
@@ -49,11 +49,6 @@ levelDefinitions = [
         audioKey: "baby"
       },
       {
-        imageKey: "saugroboter",
-        yPos: 150,
-        audioKey: "saugroboter"
-      },
-      {
         imageKey: "gitarre",
         yPos: 150,
         audioKey: "gitarre"
@@ -62,13 +57,18 @@ levelDefinitions = [
         imageKey: "radar",
         yPos: 550,
         audioKey: "radar"
+      },
+      {
+        imageKey: "lamm",
+        yPos: 550,
+        audioKey: "lamm"
       }
     ]
   },
   {
     name: "Level 4",
     minSpawnTime: 3.0 / getUrlParamAsInt("speed", 1.0),
-    bombStartProbability: 0.08,
+    bombStartProbability: 0.06,
     stuff: [
       {
         imageKey: "baby",
@@ -76,14 +76,14 @@ levelDefinitions = [
         audioKey: "baby"
       },
       {
-        imageKey: "saugroboter",
-        yPos: 150,
-        audioKey: "saugroboter"
-      },
-      {
         imageKey: "gitarre",
         yPos: 150,
         audioKey: "gitarre"
+      },
+      {
+        imageKey: "saugroboter",
+        yPos: 150,
+        audioKey: "saugroboter"
       },
       {
         imageKey: "radar",
@@ -100,7 +100,7 @@ levelDefinitions = [
   {
     name: "Level 5",
     minSpawnTime: 3.0 / getUrlParamAsInt("speed", 1.0),
-    bombStartProbability: 0.10,
+    bombStartProbability: 0.08,
     stuff: [
       {
         imageKey: "baby",
@@ -108,19 +108,14 @@ levelDefinitions = [
         audioKey: "baby"
       },
       {
-        imageKey: "saugroboter",
-        yPos: 150,
-        audioKey: "saugroboter"
-      },
-      {
         imageKey: "gitarre",
         yPos: 150,
         audioKey: "gitarre"
       },
       {
-        imageKey: "garnele",
+        imageKey: "saugroboter",
         yPos: 150,
-        audioKey: "garnele"
+        audioKey: "saugroboter"
       },
       {
         imageKey: "radar",
@@ -131,18 +126,23 @@ levelDefinitions = [
         imageKey: "lamm",
         yPos: 550,
         audioKey: "lamm"
+      },
+      {
+        imageKey: "wurstbrot",
+        yPos: 550,
+        audioKey: "wurstbrot"
       }
     ]
   },
   {
     name: "Level 6",
     minSpawnTime: 3.0 / getUrlParamAsInt("speed", 1.0),
-    bombStartProbability: 0.12,
+    bombStartProbability: 0.10,
     stuff: [
       {
-        imageKey: "baby",
+        imageKey: "gitarre",
         yPos: 150,
-        audioKey: "baby"
+        audioKey: "gitarre"
       },
       {
         imageKey: "saugroboter",
@@ -150,19 +150,9 @@ levelDefinitions = [
         audioKey: "saugroboter"
       },
       {
-        imageKey: "gitarre",
-        yPos: 150,
-        audioKey: "gitarre"
-      },
-      {
         imageKey: "garnele",
         yPos: 150,
         audioKey: "garnele"
-      },
-      {
-        imageKey: "schlagzeug",
-        yPos: 150,
-        audioKey: "schlagzeug"
       },
       {
         imageKey: "radar",
@@ -173,28 +163,23 @@ levelDefinitions = [
         imageKey: "lamm",
         yPos: 550,
         audioKey: "lamm"
+      },
+      {
+        imageKey: "wurstbrot",
+        yPos: 550,
+        audioKey: "wurstbrot"
       }
     ]
   },
   {
     name: "Level 7",
     minSpawnTime: 3.0 / getUrlParamAsInt("speed", 1.0),
-    bombStartProbability: 0.14,
+    bombStartProbability: 0.12,
     stuff: [
-      {
-        imageKey: "baby",
-        yPos: 150,
-        audioKey: "baby"
-      },
       {
         imageKey: "saugroboter",
         yPos: 150,
         audioKey: "saugroboter"
-      },
-      {
-        imageKey: "gitarre",
-        yPos: 150,
-        audioKey: "gitarre"
       },
       {
         imageKey: "garnele",
@@ -212,37 +197,22 @@ levelDefinitions = [
         audioKey: "radar"
       },
       {
-        imageKey: "wurstbrot",
-        yPos: 550,
-        audioKey: "wurstbrot"
-      },
-      {
         imageKey: "lamm",
         yPos: 550,
         audioKey: "lamm"
+      },
+      {
+        imageKey: "wurstbrot",
+        yPos: 550,
+        audioKey: "wurstbrot"
       }
     ]
   },
   {
     name: "Level 8",
     minSpawnTime: 3.0 / getUrlParamAsInt("speed", 1.0),
-    bombStartProbability: 0.16,
+    bombStartProbability: 0.14,
     stuff: [
-      {
-        imageKey: "baby",
-        yPos: 150,
-        audioKey: "baby"
-      },
-      {
-        imageKey: "saugroboter",
-        yPos: 150,
-        audioKey: "saugroboter"
-      },
-      {
-        imageKey: "gitarre",
-        yPos: 150,
-        audioKey: "gitarre"
-      },
       {
         imageKey: "garnele",
         yPos: 150,
@@ -264,42 +234,22 @@ levelDefinitions = [
         audioKey: "radar"
       },
       {
-        imageKey: "wurstbrot",
-        yPos: 550,
-        audioKey: "wurstbrot"
-      },
-      {
         imageKey: "lamm",
         yPos: 550,
         audioKey: "lamm"
+      },
+      {
+        imageKey: "wurstbrot",
+        yPos: 550,
+        audioKey: "wurstbrot"
       }
     ]
   },
   {
     name: "Level 9",
     minSpawnTime: 3.0 / getUrlParamAsInt("speed", 1.0),
-    bombStartProbability: 0.18,
+    bombStartProbability: 0.16,
     stuff: [
-      {
-        imageKey: "baby",
-        yPos: 150,
-        audioKey: "baby"
-      },
-      {
-        imageKey: "saugroboter",
-        yPos: 150,
-        audioKey: "saugroboter"
-      },
-      {
-        imageKey: "gitarre",
-        yPos: 150,
-        audioKey: "gitarre"
-      },
-      {
-        imageKey: "garnele",
-        yPos: 150,
-        audioKey: "garnele"
-      },
       {
         imageKey: "schlagzeug",
         yPos: 150,
@@ -321,14 +271,14 @@ levelDefinitions = [
         audioKey: "radar"
       },
       {
-        imageKey: "wurstbrot",
-        yPos: 550,
-        audioKey: "wurstbrot"
-      },
-      {
         imageKey: "lamm",
         yPos: 550,
         audioKey: "lamm"
+      },
+      {
+        imageKey: "wurstbrot",
+        yPos: 550,
+        audioKey: "wurstbrot"
       }
     ]
   },
