@@ -16,7 +16,7 @@ body {
 #gameContainer {
 	position: relative;
 	background-color: white;
-	background-image: url("../images/title-01.png");
+	background-image: url("../images/Titel-01.png");
 	background-size: 100%;
 	background-repeat: no-repeat;
 	height:100vh;
@@ -27,6 +27,8 @@ body {
 	-moz-user-select: none;    
 	-ms-user-select: none;      
 	user-select: none;
+	-webkit-transition: background-image 1.0s ease-in-out;
+    transition: background-image 1.0s ease-in-out;
 }
 
 #gameCanvas {

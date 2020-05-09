@@ -127,20 +127,24 @@
   }
   
   // --------------------------------------------------------------------------
-  function IntroPhase(titleDelay = 15/*120*/) {
-    var delayUntilTitle = titleDelay;
-    var startGame = false;
+  function IntroPhase(titleSwitchDelay = 2.0) {
+    this.delayUntilNextTitle = titleSwitchDelay;
+    this.currTitleTime = 0.0;
+    this.nextTitleIndex = 2;
+    this.titlesDone = false;
+    this.startGame = false;
+    this.roarAudio = new Audio("audio/Roar.mp3");
     document.getElementById("gameContainer").style.backgroundColor="white";
-    document.getElementById("gameContainer").style.backgroundImage="url(\"images/title-01.png\")"; 
+    document.getElementById("gameContainer").style.backgroundImage="url(\"images/Titel-01.png\")"; 
 
     this.handleTouchMove = function(pos)
     { }
 
     this.handleMouseDown = function(pos)
     { 
-      if (delayUntilTitle < 0) {
+      if (this.titlesDone) {
         document.getElementById("gameContainer").style.backgroundImage="none"; 
-        startGame = true;
+        this.startGame = true;
         // hack to convince Safari and other browsers to play audio
         dummyAudio = new Audio("audio/silence.mp3");
         dummyAudio.play();
@@ -148,21 +152,43 @@
       }
     }
 
-    this.update = function(frameTime = 0)
+    this.update = function(frameTime = 0.0)
     {
-      delayUntilTitle -= 1;
+      this.currTitleTime += frameTime;
     }
 
     this.render = function()
     {
-      if (delayUntilTitle == 0) {
-        document.getElementById("gameContainer").style.backgroundImage="url(\"images/" + language + "/title-02.png?v=0.1.7\")";
+      if (this.currTitleTime > this.delayUntilNextTitle) {
+        if (this.nextTitleIndex < 5) {
+          document.getElementById("gameContainer").style.backgroundImage="url(\"images/Titel-0" + this.nextTitleIndex.toString() + ".png?v=0.1.7\")";
+          this.nextTitleIndex += 1;
+          this.currTitleTime = 0.0;
+        }
+        else if (this.nextTitleIndex == 5) {
+          document.getElementById("gameContainer").style.webkitTransition = "background-image 0.01s ease-in-out";
+          document.getElementById("gameContainer").style.transition = "background-image 0.01s ease-in-out";
+          this.roarAudio.play();
+          document.getElementById("gameContainer").style.backgroundImage="url(\"images/Titel-05.png?v=0.1.7\")";
+          this.nextTitleIndex += 1;
+          this.currTitleTime = 0.0;
+        }
+        else if (this.nextTitleIndex == 6) {
+          document.getElementById("gameContainer").style.backgroundImage="url(\"images/Titel-04.png?v=0.1.7\")";
+          this.nextTitleIndex += 1;
+          this.currTitleTime = 0.0;
+        }
+        else {
+          document.getElementById("gameContainer").style.webkitTransition = "none";
+          document.getElementById("gameContainer").style.transition = "none";
+          this.titlesDone = true;
+        }
       }
     }
 
     this.getNextGamePhase = function()
     {
-      if (startGame) 
+      if (this.startGame) 
       {
         return new MainGamePhase(0);
       }
@@ -340,6 +366,9 @@
   // --------------------------------------------------------------------------
   function getPassedFrameTimeInSeconds(timeStamp)
   {
+    if (isNaN(timeStamp)) {
+      return 0;
+    }
     if (!lastTimeStamp) {
       lastTimeStamp = timeStamp;
     }
