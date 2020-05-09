@@ -161,7 +161,7 @@
     {
       if (this.currTitleTime > this.delayUntilNextTitle) {
         if (this.nextTitleIndex < 5) {
-          document.getElementById("gameContainer").style.backgroundImage="url(\"images/Titel-0" + this.nextTitleIndex.toString() + ".png?v=0.1.7\")";
+          document.getElementById("gameContainer").style.backgroundImage="url(\"images/Titel-0" + this.nextTitleIndex.toString() + ".png?v=0.1.8\")";
           this.nextTitleIndex += 1;
           this.currTitleTime = 0.0;
         }
@@ -169,12 +169,12 @@
           document.getElementById("gameContainer").style.webkitTransition = "background-image 0.01s ease-in-out";
           document.getElementById("gameContainer").style.transition = "background-image 0.01s ease-in-out";
           this.roarAudio.play();
-          document.getElementById("gameContainer").style.backgroundImage="url(\"images/Titel-05.png?v=0.1.7\")";
+          document.getElementById("gameContainer").style.backgroundImage="url(\"images/Titel-05.png?v=0.1.8\")";
           this.nextTitleIndex += 1;
           this.currTitleTime = 0.0;
         }
         else if (this.nextTitleIndex == 6) {
-          document.getElementById("gameContainer").style.backgroundImage="url(\"images/Titel-04.png?v=0.1.7\")";
+          document.getElementById("gameContainer").style.backgroundImage="url(\"images/Titel-04.png?v=0.1.8\")";
           this.nextTitleIndex += 1;
           this.currTitleTime = 0.0;
         }
