@@ -156,7 +156,7 @@
     this.render = function()
     {
       if (delayUntilTitle == 0) {
-        document.getElementById("gameContainer").style.backgroundImage="url(\"images/" + language + "/title-02.png?v=0.1.6\")";
+        document.getElementById("gameContainer").style.backgroundImage="url(\"images/" + language + "/title-02.png?v=0.1.7\")";
       }
     }
 
