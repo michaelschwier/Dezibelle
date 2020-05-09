@@ -1,8 +1,12 @@
 // --------------------------------------------------------------------------
 function Dezibelle(options)
 {
+  this.kotzTime = 1.8;
+  this.currKotzTime = 0.0;
+  this.imageNormal = options.image1;
+  this.imageKotz = options.image2;
   MultiFrameAnimatedSprite.call(this, {
-    image: options.image,
+    image: options.image1,
     x: options.x || 100,
     y: options.y || 550,
     numberOfFrames: 10,
@@ -14,6 +18,13 @@ function Dezibelle(options)
   this.ssuper_update = this.update;
   this.update = function(frameTime = 0) 
   {
+    if (this.image === this.imageKotz) {
+      this.currKotzTime += frameTime;
+      if (this.currKotzTime > this.kotzTime) {
+        this.image = this.imageNormal;
+        this.currKotzTime = 0;
+      }
+    }
     this.mover.move(frameTime);
     this.ssuper_update(frameTime);
   }
@@ -55,6 +66,11 @@ function Dezibelle(options)
   this.isWaiting = function()
   {
     return !this.mover.isMoving();
+  }
+
+  this.collision = function()
+  {
+    this.image = this.imageKotz;
   }
 }
 

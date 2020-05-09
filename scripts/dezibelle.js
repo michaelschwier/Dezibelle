@@ -244,6 +244,7 @@
           if (yDistToPlayer < 75) {
             if (this.scene.volumeObject instanceof Bomb) {
               this.scene.volumeObject.collision();
+              this.scene.player.collision();
               if (this.scene.scoreBar.getScore() > 3) {
                 this.scene.scoreBar.setScore(3);
               }
@@ -396,6 +397,7 @@
   resources.addImage("hamsterDriveUnit", "images/hamster-unit_100x100x2.png");
   resources.addImage("hamsterToken", "images/hamster-unit_800x800x2.png");
   resources.addImage("dezibelle", "images/Dezibelle_200x200x10.png");
+  resources.addImage("dezibellekotz", "images/DezibelleKotz_200x200x10.png");
   resources.addImage("baby", "images/Baby_200x200x1.png");
   resources.addImage("radar", "images/Radar_200x200x1.png");
   resources.addImage("saugroboter", "images/Saugroboter_200x200x1.png")

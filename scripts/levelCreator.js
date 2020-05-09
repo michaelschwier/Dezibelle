@@ -69,7 +69,8 @@ function LevelCreator(levelDefinitions, resources, audioCache)
       initScore: 3
     });
     scene.player = new Dezibelle({
-      image: this.resources.getImage("dezibelle")
+      image1: this.resources.getImage("dezibelle"),
+      image2: this.resources.getImage("dezibellekotz")
     });
   }
 
